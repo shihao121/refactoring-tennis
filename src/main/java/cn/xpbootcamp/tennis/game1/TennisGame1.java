@@ -10,8 +10,8 @@ public class TennisGame1 implements TennisGame {
     public static final String DEUCE = "Deuce";
     public static final String ADVANTAGE = "Advantage";
     public static final String WIN_FOR = "Win for";
-    private int player1Score = 0;
-    private int player2Score = 0;
+    private int player1Score;
+    private int player2Score;
     private String player1Name;
     private String player2Name;
 
@@ -45,10 +45,9 @@ public class TennisGame1 implements TennisGame {
 
     private String GenerateWinnerScore() {
         int minusResult = player1Score - player2Score;
-        if (minusResult == 1) return String.format(SCORE_DESCRIPTION_FORMAT, ADVANTAGE, player1Name);
-        else if (minusResult == -1) return String.format(SCORE_DESCRIPTION_FORMAT, ADVANTAGE, player2Name);
-        else if (minusResult >= 2) return String.format(SCORE_DESCRIPTION_FORMAT, WIN_FOR, player1Name);
-        else return String.format(SCORE_DESCRIPTION_FORMAT, WIN_FOR, player2Name);
+        String title = Math.abs(minusResult) == 1 ? ADVANTAGE : WIN_FOR;
+        String winnerName = minusResult > 0 ? player1Name : player2Name;
+        return String.format(SCORE_DESCRIPTION_FORMAT, title, winnerName);
     }
 
     private String GenerateTieScore() {
