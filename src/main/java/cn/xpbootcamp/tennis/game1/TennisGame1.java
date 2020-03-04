@@ -4,7 +4,12 @@ import cn.xpbootcamp.tennis.TennisGame;
 
 public class TennisGame1 implements TennisGame {
 
-    private static final String TIE_SCORE_DESCRIPTION = "%s-All";
+    private static final String TIE_SCORE_DESCRIPTION_FORMAT = "%s-All";
+    private static final String SCORE_DESCRIPTION_FORMAT = "%s %s";
+    private static final String ORDINARY_DESCRIPTION_FORMAT = "%s-%s";
+    public static final String DEUCE = "Deuce";
+    public static final String ADVANTAGE = "Advantage";
+    public static final String WIN_FOR = "Win for";
     private int player1Score = 0;
     private int player2Score = 0;
     private String player1Name;
@@ -23,30 +28,32 @@ public class TennisGame1 implements TennisGame {
     }
 
     public String getScore() {
-        StringBuilder score = new StringBuilder();
-        int tempScore = 0;
         if (player1Score == player2Score) {
-            score = new StringBuilder("Deuce");
-            if (player1Score <= 2) {
-                score = new StringBuilder(String.format(TIE_SCORE_DESCRIPTION, scoreDescription.get(player1Score)));
-
-            }
+            return GenerateTieScore();
         } else if (player1Score >= 4 || player2Score >= 4) {
-            int minusResult = player1Score - player2Score;
-            if (minusResult == 1) score = new StringBuilder("Advantage player1");
-            else if (minusResult == -1) score = new StringBuilder("Advantage player2");
-            else if (minusResult >= 2) score = new StringBuilder("Win for player1");
-            else score = new StringBuilder("Win for player2");
+            return GenerateWinnerScore();
         } else {
-            for (int i = 1; i < 3; i++) {
-                if (i == 1) tempScore = player1Score;
-                else {
-                    score.append("-");
-                    tempScore = player2Score;
-                }
-                score.append(scoreDescription.get(tempScore));
-            }
+            return GenerateOrdinaryScore();
         }
-        return score.toString();
+    }
+
+    private String GenerateOrdinaryScore() {
+        return String.format(ORDINARY_DESCRIPTION_FORMAT,
+                scoreDescription.get(player1Score), scoreDescription.get(player2Score));
+    }
+
+    private String GenerateWinnerScore() {
+        int minusResult = player1Score - player2Score;
+        if (minusResult == 1) return String.format(SCORE_DESCRIPTION_FORMAT, ADVANTAGE, player1Name);
+        else if (minusResult == -1) return String.format(SCORE_DESCRIPTION_FORMAT, ADVANTAGE, player2Name);
+        else if (minusResult >= 2) return String.format(SCORE_DESCRIPTION_FORMAT, WIN_FOR, player1Name);
+        else return String.format(SCORE_DESCRIPTION_FORMAT, WIN_FOR, player2Name);
+    }
+
+    private String GenerateTieScore() {
+        if (player1Score <= 2) {
+            return String.format(TIE_SCORE_DESCRIPTION_FORMAT, scoreDescription.get(player1Score));
+        }
+        return DEUCE;
     }
 }
