@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 class TennisGameTest {
     private int player1Score;
     private int player2Score;
-    private String expectedScore;
 
     public static Stream<List> getAllScores() {
         return Stream.of(
@@ -84,16 +84,16 @@ class TennisGameTest {
     public void checkAllScores(List<Object> params, TennisGame game) {
         player1Score = (int) params.get(0);
         player2Score = (int) params.get(1);
-        expectedScore = (String) params.get(2);
+        String expectedScore = (String) params.get(2);
 
         int highestScore = Math.max(this.player1Score, this.player2Score);
-        for (int i = 0; i < highestScore; i++) {
-            if (i < this.player1Score)
+        IntStream.range(0, highestScore).forEachOrdered(score -> {
+            if (score < this.player1Score)
                 game.wonPoint("player1");
-            if (i < this.player2Score)
+            if (score < this.player2Score)
                 game.wonPoint("player2");
-        }
-        assertEquals(this.expectedScore, game.getScore());
+        });
+        assertEquals(expectedScore, game.getScore());
     }
 
 }
