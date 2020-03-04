@@ -38,9 +38,11 @@ public class TennisGame1 implements TennisGame {
         }
     }
 
-    private String GenerateOrdinaryScore() {
-        return String.format(ORDINARY_DESCRIPTION_FORMAT,
-                scoreDescription.get(player1Score), scoreDescription.get(player2Score));
+    private String GenerateTieScore() {
+        if (player1Score <= 2) {
+            return String.format(TIE_SCORE_DESCRIPTION_FORMAT, scoreDescription.get(player1Score));
+        }
+        return DEUCE;
     }
 
     private String GenerateWinnerScore() {
@@ -50,10 +52,8 @@ public class TennisGame1 implements TennisGame {
         return String.format(SCORE_DESCRIPTION_FORMAT, title, winnerName);
     }
 
-    private String GenerateTieScore() {
-        if (player1Score <= 2) {
-            return String.format(TIE_SCORE_DESCRIPTION_FORMAT, scoreDescription.get(player1Score));
-        }
-        return DEUCE;
+    private String GenerateOrdinaryScore() {
+        return String.format(ORDINARY_DESCRIPTION_FORMAT,
+                scoreDescription.get(player1Score), scoreDescription.get(player2Score));
     }
 }
