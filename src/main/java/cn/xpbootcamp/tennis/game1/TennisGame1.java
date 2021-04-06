@@ -6,7 +6,7 @@ public class TennisGame1 implements TennisGame {
 
     private static final String TIE_SCORE_DESCRIPTION_FORMAT = "%s-All";
     private static final String SCORE_DESCRIPTION_FORMAT = "%s %s";
-    private static final String ORDINARY_DESCRIPTION_FORMAT = "%s-%s";
+    private static final String ABC = "%s-%s";
     public static final String DEUCE = "Deuce";
     public static final String ADVANTAGE = "Advantage";
     public static final String WIN_FOR = "Win for";
